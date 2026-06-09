@@ -1,0 +1,85 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-automotora
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  marca-service:
+    build: ./marca-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql
+
+  modelo-service:
+    build: ./modelo-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mysql
+
+  vehiculo-service:
+    build: ./vehiculo-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - mysql
+
+  servicio-tecnico-service:
+    build: ./servicio-tecnico-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      - mysql
+
+  usuario-service:
+    build: ./usuario-service
+    ports:
+      - "8085:8085"
+    depends_on:
+      - mysql
+
+  cliente-service:
+    build: ./cliente-service
+    ports:
+      - "8092:8092"
+    depends_on:
+      - mysql
+
+  venta-service:
+    build: ./venta-service
+    ports:
+      - "8095:8095"
+    depends_on:
+      - mysql
+
+  reserva-service:
+    build: ./reserva-service
+    ports:
+      - "8096:8096"
+    depends_on:
+      - mysql
+
+  pago-service:
+    build: ./pago-service
+    ports:
+      - "8097:8097"
+    depends_on:
+      - mysql
+
+  financiamiento-service:
+    build: ./financiamiento-service
+    ports:
+      - "8098:8098"
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:

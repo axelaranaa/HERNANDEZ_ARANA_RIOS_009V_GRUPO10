@@ -1,0 +1,16 @@
+package com.automotora.modelo_service.dto.response;
+
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ModeloResponseDTO {
+
+    private String id;
+    private String nombreModelo;
+    private String tipoVehiculo;
+    private String marcaId;
+}
