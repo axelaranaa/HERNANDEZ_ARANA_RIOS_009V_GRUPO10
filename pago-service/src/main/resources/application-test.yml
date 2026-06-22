@@ -1,0 +1,13 @@
+server:
+  port: 9085
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/pago_db_test?createDatabaseIfNotExist=true&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false

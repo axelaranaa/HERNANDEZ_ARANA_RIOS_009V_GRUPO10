@@ -1,0 +1,13 @@
+server:
+  port: 9082
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/financiamiento_db_test?createDatabaseIfNotExist=true&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
