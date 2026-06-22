@@ -3,8 +3,7 @@ package com.automotora.modelo_service.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ModeloRequestDTO {

@@ -1,0 +1,39 @@
+server:
+  port: 8096
+
+spring:
+  application:
+    name: reserva-service
+
+  datasource:
+    url: jdbc:mysql://mysql:3306/reservadb
+    username: root
+    password: root
+
+    hikari:
+      initialization-fail-timeout: 0
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  flyway:
+    enabled: true
+    repair-on-migrate: true
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+
+cliente:
+  service:
+    url: http://cliente-service:8092
+
+vehiculo:
+  service:
+    url: http://vehiculo-service:8084

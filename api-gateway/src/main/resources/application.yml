@@ -1,11 +1,157 @@
 server:
-  port: 8080
+
+  port: 8081
+
+
 
 spring:
+
   application:
+
     name: api-gateway
 
+
+
+  cloud:
+
+    gateway:
+
+
+      routes:
+
+
+
+        # MARCA
+
+        - id: marca-service
+
+          uri: lb://marca-service
+
+          predicates:
+
+            - Path=/api/marcas/**
+
+
+
+        # MODELO
+
+        - id: modelo-service
+
+          uri: lb://modelo-service
+
+          predicates:
+
+            - Path=/api/modelos/**
+
+
+
+        # VEHICULO
+
+        - id: vehiculo-service
+
+          uri: lb://vehiculo-service
+
+          predicates:
+
+            - Path=/api/vehiculos/**
+
+
+
+        # CLIENTE
+
+        - id: cliente-service
+
+          uri: lb://cliente-service
+
+          predicates:
+
+            - Path=/api/clientes/**
+
+
+
+        # USUARIO
+
+        - id: usuario-service
+
+          uri: lb://usuario-service
+
+          predicates:
+
+            - Path=/api/usuarios/**
+
+
+
+        # RESERVA
+
+        - id: reserva-service
+
+          uri: lb://reserva-service
+
+          predicates:
+
+            - Path=/api/reservas/**
+
+
+
+        # PAGO
+
+        - id: pago-service
+
+          uri: lb://pago-service
+
+          predicates:
+
+            - Path=/api/pagos/**
+
+
+
+        # FINANCIAMIENTO
+
+        - id: financiamiento-service
+
+          uri: lb://financiamiento-service
+
+          predicates:
+
+            - Path=/api/financiamientos/**
+
+
+
+        # VENTA
+
+        - id: venta-service
+
+          uri: lb://venta-service
+
+          predicates:
+
+            - Path=/api/ventas/**
+
+
+
+        # SERVICIO TECNICO
+
+        - id: servicio-tecnico-service
+
+          uri: lb://servicio-tecnico-service
+
+          predicates:
+
+            - Path=/api/servicios-tecnicos/**
+
+
+
+
 eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
+
+
+ client:
+
+  service-url:
+
+    defaultZone: http://eureka-server:8761/eureka/
+
+
+ instance:
+
+  prefer-ip-address: true

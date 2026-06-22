@@ -22,5 +22,4 @@ public class UsuarioRequestDTO {
 
     @NotBlank(message = "El rol es obligatorio")
     private String rol;
-
 }

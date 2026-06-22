@@ -1,0 +1,35 @@
+server:
+  port: 8092
+
+spring:
+  application:
+    name: cliente-service
+
+  datasource:
+    url: jdbc:mysql://mysql:3306/clientedb
+    username: root
+    password: root
+
+    hikari:
+      initialization-fail-timeout: 0
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  flyway:
+    enabled: true
+    repair-on-migrate: true
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+
+usuario:
+  service:
+    url: http://usuario-service:8085

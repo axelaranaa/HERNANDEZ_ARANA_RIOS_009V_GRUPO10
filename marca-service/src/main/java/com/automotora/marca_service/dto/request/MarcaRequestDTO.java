@@ -11,4 +11,6 @@ public class MarcaRequestDTO {
 
     @NotBlank(message = "El nombre de la marca es obligatorio")
     private String nombreMarca;
+
+    
 }

@@ -18,4 +18,6 @@ public class Marca {
 
     @Column(name = "nombre_marca", nullable = false, length = 50)
     private String nombreMarca;
+
+    
 }

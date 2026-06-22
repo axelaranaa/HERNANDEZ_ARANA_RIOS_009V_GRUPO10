@@ -1,16 +1,16 @@
 package com.automotora.servicio_tecnico_service.client;
 
+import com.automotora.servicio_tecnico_service.dto.response.VehiculoResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(
         name = "vehiculo-service",
-        url = "http://localhost:8083"
+        url = "${vehiculo.service.url}"
 )
 public interface VehiculoClient {
 
     @GetMapping("/api/vehiculos/{id}")
-    Object obtenerVehiculo(
-            @PathVariable String id);
+    VehiculoResponseDTO obtenerVehiculo(@PathVariable String id);
 }

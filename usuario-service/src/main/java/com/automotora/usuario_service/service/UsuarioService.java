@@ -3,20 +3,24 @@ package com.automotora.usuario_service.service;
 import com.automotora.usuario_service.dto.request.UsuarioRequestDTO;
 import com.automotora.usuario_service.dto.response.UsuarioResponseDTO;
 import com.automotora.usuario_service.exception.UsuarioNotFoundException;
-import com.automotora.usuario_service.model.UsuarioModel;
+import com.automotora.usuario_service.model.Usuario;
 import com.automotora.usuario_service.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
     public List<UsuarioResponseDTO> obtenerTodos() {
+
+        log.info("Obteniendo todos los usuarios");
 
         return usuarioRepository.findAll()
                 .stream()
@@ -26,60 +30,59 @@ public class UsuarioService {
 
     public UsuarioResponseDTO obtenerPorId(String id) {
 
-        UsuarioModel usuario = usuarioRepository.findById(id)
-                .orElseThrow(() ->
-                        new UsuarioNotFoundException(
-                                "Usuario no encontrado"));
+        Usuario usuario = buscarUsuario(id);
 
         return convertirDTO(usuario);
     }
 
-    public UsuarioResponseDTO crearUsuario(
-            UsuarioRequestDTO request) {
+    public UsuarioResponseDTO guardar(UsuarioRequestDTO dto) {
 
-        UsuarioModel usuario = UsuarioModel.builder()
-                .username(request.getUsername())
-                .email(request.getEmail())
-                .password(request.getPassword())
-                .estado(request.getEstado())
-                .rol(request.getRol())
+        Usuario usuario = Usuario.builder()
+                .username(dto.getUsername())
+                .email(dto.getEmail())
+                .password(dto.getPassword())
+                .estado(dto.getEstado())
+                .rol(dto.getRol())
                 .build();
 
-        return convertirDTO(
-                usuarioRepository.save(usuario));
+        log.info("Creando usuario {}", dto.getUsername());
+
+        return convertirDTO(usuarioRepository.save(usuario));
     }
 
-    public UsuarioResponseDTO actualizarUsuario(
-            String id,
-            UsuarioRequestDTO request) {
+    public UsuarioResponseDTO actualizar(String id, UsuarioRequestDTO dto) {
 
-        UsuarioModel usuario = usuarioRepository.findById(id)
-                .orElseThrow(() ->
-                        new UsuarioNotFoundException(
-                                "Usuario no encontrado"));
+        Usuario usuario = buscarUsuario(id);
 
-        usuario.setUsername(request.getUsername());
-        usuario.setEmail(request.getEmail());
-        usuario.setPassword(request.getPassword());
-        usuario.setEstado(request.getEstado());
-        usuario.setRol(request.getRol());
+        usuario.setUsername(dto.getUsername());
+        usuario.setEmail(dto.getEmail());
+        usuario.setPassword(dto.getPassword());
+        usuario.setEstado(dto.getEstado());
+        usuario.setRol(dto.getRol());
 
-        return convertirDTO(
-                usuarioRepository.save(usuario));
+        log.info("Actualizando usuario {}", id);
+
+        return convertirDTO(usuarioRepository.save(usuario));
     }
 
-    public void eliminarUsuario(String id) {
+    public void eliminar(String id) {
 
-        UsuarioModel usuario = usuarioRepository.findById(id)
-                .orElseThrow(() ->
-                        new UsuarioNotFoundException(
-                                "Usuario no encontrado"));
+        Usuario usuario = buscarUsuario(id);
+
+        log.info("Eliminando usuario {}", id);
 
         usuarioRepository.delete(usuario);
     }
 
-    private UsuarioResponseDTO convertirDTO(
-            UsuarioModel usuario) {
+    private Usuario buscarUsuario(String id) {
+
+        return usuarioRepository.findById(id)
+                .orElseThrow(() ->
+                        new UsuarioNotFoundException(
+                                "Usuario no encontrado con id: " + id));
+    }
+
+    private UsuarioResponseDTO convertirDTO(Usuario usuario) {
 
         return UsuarioResponseDTO.builder()
                 .id(usuario.getId())

@@ -1,0 +1,36 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      mvc:
+        routes:
+
+          - id: marca-service
+            uri: lb://MARCA-SERVICE
+            predicates:
+              - Path=/api/marcas/**
+
+          - id: modelo-service
+            uri: lb://MODELO-SERVICE
+            predicates:
+              - Path=/api/modelos/**
+
+          - id: vehiculo-service
+            uri: lb://VEHICULO-SERVICE
+            predicates:
+              - Path=/api/vehiculos/**
+
+          - id: servicio-tecnico-service
+            uri: lb://SERVICIO-TECNICO-SERVICE
+            predicates:
+              - Path=/api/servicios-tecnicos/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/

@@ -1,0 +1,34 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: modelo-service
+
+  datasource:
+    url: jdbc:mysql://mysql:3306/modelodb
+    username: root
+    password: root
+
+    hikari:
+      initialization-fail-timeout: 0
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  flyway:
+    enabled: true
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+
+marca:
+  service:
+    url: http://marca-service:8091

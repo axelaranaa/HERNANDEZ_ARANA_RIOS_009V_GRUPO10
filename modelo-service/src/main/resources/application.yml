@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: modelo-service
+
+  profiles:
+    active: dev
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method

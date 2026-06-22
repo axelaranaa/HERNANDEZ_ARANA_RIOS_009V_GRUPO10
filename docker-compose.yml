@@ -5,81 +5,137 @@ services:
     container_name: mysql-automotora
     environment:
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: marcadb
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  eureka-server:
+    build: ./eureka-server
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: on-failure
 
   marca-service:
     build: ./marca-service
+    container_name: marca-service
     ports:
-      - "8081:8081"
+      - "8091:8091"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    restart: on-failure
 
   modelo-service:
     build: ./modelo-service
+    container_name: modelo-service
     ports:
       - "8082:8082"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    restart: on-failure
 
   vehiculo-service:
     build: ./vehiculo-service
-    ports:
-      - "8083:8083"
-    depends_on:
-      - mysql
-
-  servicio-tecnico-service:
-    build: ./servicio-tecnico-service
+    container_name: vehiculo-service
     ports:
       - "8084:8084"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    restart: on-failure
+
+  servicio-tecnico-service:
+    build: ./servicio-tecnico-service
+    container_name: servicio-tecnico-service
+    ports:
+      - "8090:8090"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    restart: on-failure
 
   usuario-service:
     build: ./usuario-service
+    container_name: usuario-service
     ports:
       - "8085:8085"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    restart: on-failure
 
   cliente-service:
     build: ./cliente-service
+    container_name: cliente-service
     ports:
       - "8092:8092"
     depends_on:
-      - mysql
-
-  venta-service:
-    build: ./venta-service
-    ports:
-      - "8095:8095"
-    depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    restart: on-failure
 
   reserva-service:
     build: ./reserva-service
+    container_name: reserva-service
     ports:
       - "8096:8096"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    restart: on-failure
 
-  pago-service:
-    build: ./pago-service
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
     ports:
-      - "8097:8097"
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
     depends_on:
-      - mysql
-
-  financiamiento-service:
-    build: ./financiamiento-service
-    ports:
-      - "8098:8098"
-    depends_on:
-      - mysql
+      eureka-server:
+        condition: service_started
+      marca-service:
+        condition: service_started
+      modelo-service:
+        condition: service_started
+      vehiculo-service:
+        condition: service_started
+      servicio-tecnico-service:
+        condition: service_started
+      usuario-service:
+        condition: service_started
+      cliente-service:
+        condition: service_started
+      reserva-service:
+        condition: service_started
+    restart: on-failure
 
 volumes:
   mysql_data:

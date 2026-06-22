@@ -1,0 +1,15 @@
+server:
+
+  port: 8091
+
+
+spring:
+
+  application:
+
+    name: marca-service
+
+
+  profiles:
+
+    active: docker

@@ -1,0 +1,25 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: vehiculo-service
+
+  datasource:
+    url: jdbc:mysql://mysql:3306/vehiculodb
+    username: root
+    password: root
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    show-sql: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+
+    register-with-eureka: true
+    fetch-registry: true

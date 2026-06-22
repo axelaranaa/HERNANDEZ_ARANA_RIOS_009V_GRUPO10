@@ -1,12 +1,13 @@
 package com.automotora.cliente_service.dto.response;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ClienteResponseDTO {
 
     private String id;

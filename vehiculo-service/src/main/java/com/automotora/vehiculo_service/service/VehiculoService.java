@@ -2,10 +2,14 @@ package com.automotora.vehiculo_service.service;
 
 import com.automotora.vehiculo_service.client.ModeloClient;
 import com.automotora.vehiculo_service.dto.request.VehiculoRequestDTO;
+import com.automotora.vehiculo_service.dto.response.ModeloResponseDTO;
 import com.automotora.vehiculo_service.dto.response.VehiculoResponseDTO;
+import com.automotora.vehiculo_service.exception.RecursoRelacionadoNoEncontradoException;
+import com.automotora.vehiculo_service.exception.ServicioExternoNoDisponibleException;
 import com.automotora.vehiculo_service.exception.VehiculoNotFoundException;
 import com.automotora.vehiculo_service.model.Vehiculo;
 import com.automotora.vehiculo_service.repository.VehiculoRepository;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -42,7 +46,7 @@ public class VehiculoService {
 
         log.info("Validando existencia del modelo {}", dto.getModeloId());
 
-        modeloClient.obtenerModelo(dto.getModeloId());
+        validarModeloExiste(dto.getModeloId());
 
         Vehiculo vehiculo = Vehiculo.builder()
                 .id(UUID.randomUUID().toString())
@@ -70,7 +74,7 @@ public class VehiculoService {
 
         Vehiculo vehiculo = buscarVehiculo(id);
 
-        modeloClient.obtenerModelo(dto.getModeloId());
+        validarModeloExiste(dto.getModeloId());
 
         vehiculo.setPatente(dto.getPatente());
         vehiculo.setAnio(dto.getAnio());
@@ -96,6 +100,27 @@ public class VehiculoService {
         log.info("Eliminando vehículo {}", id);
 
         vehiculoRepository.delete(vehiculo);
+    }
+
+    private void validarModeloExiste(String modeloId) {
+
+        try {
+            ModeloResponseDTO modelo = modeloClient.obtenerModelo(modeloId);
+
+            if (modelo == null) {
+                throw new RecursoRelacionadoNoEncontradoException(
+                        "El modelo con id " + modeloId + " no existe");
+            }
+
+        } catch (FeignException.NotFound e) {
+            throw new RecursoRelacionadoNoEncontradoException(
+                    "El modelo con id " + modeloId + " no existe");
+
+        } catch (FeignException e) {
+            log.error("Error al consultar modelo-service: {}", e.getMessage());
+            throw new ServicioExternoNoDisponibleException(
+                    "No se pudo validar el modelo, el servicio no está disponible");
+        }
     }
 
     private Vehiculo buscarVehiculo(String id) {

@@ -2,25 +2,22 @@ package com.automotora.reserva_service.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.Data;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class ReservaRequestDTO {
 
-    @NotNull
+    @NotNull(message = "La fecha de reserva es obligatoria")
     private LocalDate fechaReserva;
 
-    @NotBlank
+    @NotBlank(message = "El estado de reserva es obligatorio")
     private String estadoReserva;
 
-    @NotBlank
+    @NotBlank(message = "El clienteId es obligatorio")
     private String clienteId;
 
-    @NotBlank
+    @NotBlank(message = "El vehiculoId es obligatorio")
     private String vehiculoId;
 }

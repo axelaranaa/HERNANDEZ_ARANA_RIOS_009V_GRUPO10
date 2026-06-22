@@ -2,13 +2,13 @@ package com.automotora.marca_service.dto.response;
 
 import lombok.*;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MarcaResponseDTO {
 
+public class MarcaResponseDTO {
     private String id;
     private String nombreMarca;
+    
 }

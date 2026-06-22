@@ -7,11 +7,10 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "cliente")
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Cliente {
 
     @Id

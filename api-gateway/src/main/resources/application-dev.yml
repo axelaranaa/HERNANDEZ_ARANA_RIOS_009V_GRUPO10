@@ -1,0 +1,44 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: cliente-service
+          uri: lb://cliente-service
+          predicates:
+            - Path=/api/clientes/**
+        - id: financiamiento-service
+          uri: lb://financiamiento-service
+          predicates:
+            - Path=/api/financiamientos/**
+        - id: marca-service
+          uri: lb://marca-service
+          predicates:
+            - Path=/api/marcas/**
+        - id: modelo-service
+          uri: lb://modelo-service
+          predicates:
+            - Path=/api/modelos/**
+        - id: pago-service
+          uri: lb://pago-service
+          predicates:
+            - Path=/api/pagos/**
+        - id: reserva-service
+          uri: lb://reserva-service
+          predicates:
+            - Path=/api/reservas/**
+        - id: servicio-tecnico-service
+          uri: lb://servicio-tecnico-service
+          predicates:
+            - Path=/api/servicios-tecnicos/**
+        - id: usuario-service
+          uri: lb://usuario-service
+          predicates:
+            - Path=/api/usuarios/**
+        - id: vehiculo-service
+          uri: lb://vehiculo-service
+          predicates:
+            - Path=/api/vehiculos/**
+        - id: venta-service
+          uri: lb://venta-service
+          predicates:
+            - Path=/api/ventas/**

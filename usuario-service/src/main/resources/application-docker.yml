@@ -1,0 +1,23 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: usuario-service
+
+  datasource:
+    url: jdbc:mysql://mysql:3306/usuariodb
+    username: root
+    password: root
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true

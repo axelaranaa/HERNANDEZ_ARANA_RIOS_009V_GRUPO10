@@ -1,0 +1,20 @@
+server:
+  port: 8096
+
+spring:
+  application:
+    name: reserva-service
+
+  datasource:
+    url: jdbc:mysql://mysql:3306/reservadb
+    username: root
+    password: root
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+eureka:
+  client:
+    enabled: false
